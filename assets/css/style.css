@@ -1,0 +1,14 @@
+body
+{
+  height: 100vh;
+}
+
+#end-game
+{
+  display: none;
+}
+
+#start-game
+{
+  display: inline;
+}

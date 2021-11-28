@@ -3,24 +3,7 @@ body
   height: 100vh;
 }
 
-#end-game
-{
-  display: none;
-}
-
 #start-game
 {
   display: inline;
-}
-
-#question
-{
-  padding-top: 5%;
-}
-
-#choices
-{
-  display: none;
-  padding-left: 30%;
-  padding-top: 2.5%;
 }

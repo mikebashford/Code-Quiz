@@ -1,4 +1,4 @@
-let questions = [
+var questions = [
   {question: "Inside which HTML element do we put the JavaScript?", choice1: "<script>" , choice2: "<js>", choice3: "<javascript>", choice4: "<scripting>", correctAnswer: 1}, 
   {question:"Where is the correct place to insert a JavaScript?" , choice1: "The <body> section", choice2: "Both the <head> section and the <body> section are correct", choice3: "The <head> section", choice4: "The <footer> section", correctAnswer: 2}, 
   {question:"What is the correct syntax for referring to an external script called 'xxx.js'?", choice1: "<script src='xxx.js'" , choice2: "<script href='xxx.js'>", choice3: "<script name='xxx.js'>", choice4: "<script class='xxx.js'>", correctAnswer: 1}, 
@@ -10,17 +10,21 @@ let questions = [
   {question:"How does a FOR loop start?", choice1: "for (i = 0; i <= 5; i++)" , choice2: "for (i = 0; i <= 5)", choice3: "for i = 1 to 5", choice4: "for (i <= 5; i++)", correctAnswer: 1},
   {question:"How can you add a comment in a JavaScript?", choice1: "//This is a comment", choice2: "'This is a comment", choice3: "<!--This is a comment-->", choice4: "!-This is a comment-!", correctAnswer: 1}];
   
-const timerText = document.querySelector(".timer-text");
-const timeLeft = document.querySelector(".timer-num");
-const question = document.querySelector("#question");
-const choices = Array.from(document.getElementsByClassName("choice-text"));
-const saveScore = document.querySelector("#save");
+var timerText = document.querySelector(".timer-text");
+var timeLeft = document.querySelector(".timer-num");
+var question = document.querySelector("#question");
+var choices = Array.from(document.getElementsByClassName("choice-text"));
+var saveScore = document.querySelector("#save");
+var divider = document.querySelector(".divider");
+var correct = document.querySelector(".correct");
+var wrong = document.querySelector(".wrong");
 
-let currentQuestion = {};
-let score = 0;
-let questionCounter = 0;
-let acceptAnswer = true;
-let availableQuestions = [];
+var currentQuestion = {};
+var score = 0;
+var questionCounter = 0;
+var acceptAnswer = false;
+var availableQuestions = [];
+var timer = 60;
 
 // GIVEN I am taking a code quiz
 // WHEN I click the start button
@@ -36,14 +40,13 @@ function startGame()
 // THEN a timer starts and I am presented with a question
 function startTimer()
 {
-  timer = 60;
   timeLeft.innerText = timer;
   setInterval(function()
   {
     if(timer > 0)
     {
       timer--;
-      timeLeft.textContent = timer;
+      timeLeft.innerText = timer;
       return timeLeft.value;
     }
     else{
@@ -58,6 +61,10 @@ function startTimer()
 // THEN time is subtracted from the clock
 function getQuestion()
 {
+  divider.setAttribute("style", "visibility: hidden; width: 100%;")
+  correct.setAttribute("style", "visibility: hidden;")
+  wrong.setAttribute("style", "visibility: hidden;")
+
   if(availableQuestions.length === 0)
   {
     endGame();
@@ -68,28 +75,20 @@ function getQuestion()
 
   choices.forEach(choice =>
   {
-    const number = choice.dataset['value'];
+    var number = choice.dataset['value'];
     choice.innerText = currentQuestion[number];
   });
 
-  // choices.forEach((choice) =>{
-  //   choice.addEventListener("click", event =>{
-  //     selectAnswer = e.target;
-  //   })
-  //   var selectedAnswer = selectAnswer.dataset["answer"];
-  //   console.log(selectedAnswer);
-  // })
-  //questionCounter++;
-  // getQuestion();
+  availableQuestions.splice(questionCounter, 1);
+  console.log(availableQuestions);
+  acceptAnswer = true;
 }
-
 
 // WHEN all questions are answered or the timer reaches 0
 // THEN the game is over
 function endGame()
 {
-  console.log("Game is over, enter initials: ");
-  return;
+  return window.location.assign("highscore.html");
 }
 // WHEN the game is over
 // THEN I can save my initials and score
@@ -98,5 +97,35 @@ function saveHighScores()
   console.log("High score saved!");
   return;
 }
+
+choices.forEach(choice =>
+{
+  choice.addEventListener('click', event =>
+  {
+    console.log(event.target);
+    if(!acceptAnswer)
+    {
+      return;
+    }
+    acceptAnswer = false;
+    var selectedChoice = event.target;
+    var selectedAnswer = selectedChoice.dataset['value'];
+    if(selectedAnswer === "choice" + currentQuestion.correctAnswer)
+    {
+      divider.setAttribute("style", "visibility: visible; width: 100%;")
+      correct.setAttribute("style", "visibility: visible;")
+    }
+    else
+    {
+      timer -= 3;
+      divider.setAttribute("style", "visibility: visible; width: 100%;")
+      wrong.setAttribute("style", "visibility: visible;")
+    }
+    setTimeout( function()
+    {
+      getQuestion();
+    } , 1000);
+  });
+});
 
 startGame();

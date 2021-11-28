@@ -23,6 +23,34 @@
   transition: transform 150ms;
 }
 
+.choice-text
+{
+  width: 100%;
+}
+
+.banner hr
+{
+  width: 70%;
+  margin: auto;
+}
+
+.banner
+{
+  width: 60%;
+  margin: auto;
+  visibility: hidden;
+}
+
+.correct
+{
+ visibility: hidden;
+}
+
+.wrong
+{
+ visibility: hidden;
+}
+
 #end-game
 {
   display: none;

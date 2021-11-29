@@ -1,3 +1,8 @@
+.navbar
+{
+  background-color: blueviolet;
+}
+
 .container
 {
   visibility: visible;
@@ -52,7 +57,7 @@
  visibility: hidden;
 }
 
-#end-game
+.end-game
 {
   display: flex;
   justify-content: center;

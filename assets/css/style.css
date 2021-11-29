@@ -1,9 +1,24 @@
 body
 {
   height: 100vh;
+  background-color: antiquewhite;
 }
 
-#start-game
+.navbar
+{
+  background-color: rgb(150, 0, 112);
+  color: white;
+}
+
+.start-game
 {
   display: inline;
+}
+
+#high-score-list
+{
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 50px;
+  margin-top: 50px;
 }

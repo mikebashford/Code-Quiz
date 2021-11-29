@@ -19,7 +19,7 @@ var divider = document.querySelector(".divider");
 var correct = document.querySelector(".correct");
 var wrong = document.querySelector(".wrong");
 var quizGame = document.querySelector(".container");
-var saveScoreScreen = document.querySelector("#end-game");
+var saveScoreScreen = document.querySelector(".end-game");
 
 var userInitials = document.getElementById("user-initials");
 var saveScore = document.getElementById("save");

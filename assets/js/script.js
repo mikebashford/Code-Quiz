@@ -31,7 +31,6 @@ var currentQuestion = {};
 var score = 0;
 var questionCounter = 0;
 var acceptAnswer = false;
-var availableQuestions = [];
 var timer = 60;
 
 // GIVEN I am taking a code quiz
@@ -40,7 +39,6 @@ function startGame()
 {
   score = 0;
   questionCounter = 0;
-  availableQuestions = [...questions];
   currentScore = score;
   startTimer();
   getQuestion();
@@ -70,19 +68,19 @@ function startTimer()
 // THEN time is subtracted from the clock
 function getQuestion()
 {
-  if(availableQuestions.length >= 0)
+  if(questions.length >= 0)
   {
     divider.setAttribute("style", "visibility: hidden; width: 100%;")
     correct.setAttribute("style", "visibility: hidden;")
     wrong.setAttribute("style", "visibility: hidden;")
   }
 
-  if(availableQuestions.length === 0)
+  if(questions.length === 0)
   {
     endGame();
     return;
   }
-  currentQuestion = availableQuestions[questionCounter];
+  currentQuestion = questions[questionCounter];
   question.innerText = currentQuestion.question;
 
   choices.forEach(choice =>
@@ -91,8 +89,7 @@ function getQuestion()
     choice.innerText = currentQuestion[number];
   });
 
-  availableQuestions.splice(questionCounter, 1);
-  console.log(availableQuestions);
+  questions.splice(questionCounter, 1);
   acceptAnswer = true;
 }
 
@@ -112,7 +109,6 @@ choices.forEach(choice =>
 {
   choice.addEventListener('click', event =>
   {
-    console.log(event.target);
     if(!acceptAnswer)
     {
       return;
@@ -143,14 +139,12 @@ choices.forEach(choice =>
 finalScore.innerText = lastScore;
 
 userInitials.addEventListener('keyup', () => {
-  console.log(userInitials.value);
   saveScore.disabled = !userInitials.value;
 });
 
 var saveScore = function(event)
 {
   event.preventDefault();
-  console.log("been clicked!");
 
   var scoreBoard = {
     score: lastScore,

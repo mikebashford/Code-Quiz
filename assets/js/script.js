@@ -14,7 +14,7 @@ var timerText = document.querySelector(".timer-text");
 var timeLeft = document.querySelector(".timer-num");
 var question = document.querySelector("#question");
 var choices = Array.from(document.getElementsByClassName("choice-text"));
-var currentScore = document.querySelector(".score");
+// var currentScore = document.querySelector(".score");
 var divider = document.querySelector(".divider");
 var correct = document.querySelector(".correct");
 var wrong = document.querySelector(".wrong");
@@ -24,8 +24,6 @@ var saveScoreScreen = document.querySelector(".end-game");
 var userInitials = document.getElementById("user-initials");
 var saveScore = document.getElementById("save");
 var finalScore = document.querySelector(".score");
-var lastScore = localStorage.getItem("score");
-var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 
 var currentQuestion = {};
 var score = 0;
@@ -39,7 +37,6 @@ function startGame()
 {
   score = 0;
   questionCounter = 0;
-  currentScore = score;
   startTimer();
   getQuestion();
 }
@@ -135,7 +132,8 @@ choices.forEach(choice =>
   });
 });
 
-
+var lastScore = localStorage.getItem("score");
+var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 finalScore.innerText = lastScore;
 
 userInitials.addEventListener('keyup', () => {
@@ -156,6 +154,12 @@ var saveScore = function(event)
   highScores.splice(10);
 
   localStorage.setItem("highScores", JSON.stringify(highScores));
+  goToHighScores();
+}
+
+function goToHighScores()
+{
+  return window.location.assign("highscore.html");
 }
 
 startGame();

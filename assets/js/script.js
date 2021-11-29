@@ -24,6 +24,7 @@ var saveScoreScreen = document.querySelector(".end-game");
 var userInitials = document.getElementById("user-initials");
 var saveScore = document.getElementById("save");
 var finalScore = document.querySelector(".score");
+var lastScore = localStorage.getItem("score");
 
 var currentQuestion = {};
 var score;
@@ -96,6 +97,8 @@ function endGame()
 {
   myScoreStorage = window.localStorage;
   localStorage.setItem("score", score);
+  lastScore = localStorage.getItem("score");
+  finalScore.innerText = lastScore;
   saveScoreScreen.setAttribute("style", "visibility:visible;");
   quizGame.setAttribute("style", "visibility: hidden;");
 }
@@ -136,12 +139,13 @@ userInitials.addEventListener('keyup', () => {
   saveScore.disabled = !userInitials.value;
 });
 
+
+
 saveScore.addEventListener('click', () =>
 {
   //event.preventDefault();
-  var lastScore = localStorage.getItem("score");
   var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
-  finalScore.innerText = lastScore;
+
   var scoreBoard = {
     score: lastScore,
     name: userInitials.value

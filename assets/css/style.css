@@ -1,12 +1,23 @@
 body
 {
   height: 100vh;
-  background-color: antiquewhite;
+  background-color: white;
 }
 
 .navbar
 {
-  background-color: rgb(150, 0, 112);
+  background-color: darkorchid;
+  color: white;
+}
+
+.navbar-text
+{
+  color: white;
+}
+
+.btn
+{
+  background-color: darkorchid;
   color: white;
 }
 

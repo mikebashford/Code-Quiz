@@ -14,10 +14,18 @@ var timerText = document.querySelector(".timer-text");
 var timeLeft = document.querySelector(".timer-num");
 var question = document.querySelector("#question");
 var choices = Array.from(document.getElementsByClassName("choice-text"));
-var saveScore = document.querySelector("#save");
+var currentScore = document.querySelector(".score");
 var divider = document.querySelector(".divider");
 var correct = document.querySelector(".correct");
 var wrong = document.querySelector(".wrong");
+var quizGame = document.querySelector(".container");
+var saveScoreScreen = document.querySelector("#end-game");
+
+var userInitials = document.getElementById("user-initials");
+var saveScore = document.getElementById("save");
+var finalScore = document.querySelector(".score");
+var lastScore = localStorage.getItem("score");
+var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 
 var currentQuestion = {};
 var score = 0;
@@ -33,6 +41,7 @@ function startGame()
   score = 0;
   questionCounter = 0;
   availableQuestions = [...questions];
+  currentScore = score;
   startTimer();
   getQuestion();
 }
@@ -61,9 +70,12 @@ function startTimer()
 // THEN time is subtracted from the clock
 function getQuestion()
 {
-  divider.setAttribute("style", "visibility: hidden; width: 100%;")
-  correct.setAttribute("style", "visibility: hidden;")
-  wrong.setAttribute("style", "visibility: hidden;")
+  if(availableQuestions.length >= 0)
+  {
+    divider.setAttribute("style", "visibility: hidden; width: 100%;")
+    correct.setAttribute("style", "visibility: hidden;")
+    wrong.setAttribute("style", "visibility: hidden;")
+  }
 
   if(availableQuestions.length === 0)
   {
@@ -88,15 +100,13 @@ function getQuestion()
 // THEN the game is over
 function endGame()
 {
-  return window.location.assign("highscore.html");
+  myScoreStorage = window.localStorage;
+  localStorage.setItem("score", score);
+  saveScoreScreen.setAttribute("style", "visibility:visible;");
+  quizGame.setAttribute("style", "visibility: hidden;");
 }
 // WHEN the game is over
 // THEN I can save my initials and score
-function saveHighScores()
-{
-  console.log("High score saved!");
-  return;
-}
 
 choices.forEach(choice =>
 {
@@ -114,6 +124,7 @@ choices.forEach(choice =>
     {
       divider.setAttribute("style", "visibility: visible; width: 100%;")
       correct.setAttribute("style", "visibility: visible;")
+      score++;
     }
     else
     {
@@ -127,5 +138,30 @@ choices.forEach(choice =>
     } , 1000);
   });
 });
+
+
+finalScore.innerText = lastScore;
+
+userInitials.addEventListener('keyup', () => {
+  console.log(userInitials.value);
+  saveScore.disabled = !userInitials.value;
+});
+
+var saveScore = function(event)
+{
+  event.preventDefault();
+  console.log("been clicked!");
+
+  var scoreBoard = {
+    score: lastScore,
+    name: userInitials.value
+  };
+
+  highScores.push(scoreBoard);
+  highScores.sort((a,b) => b.score - a.score);
+  highScores.splice(10);
+
+  localStorage.setItem("highScores", JSON.stringify(highScores));
+}
 
 startGame();

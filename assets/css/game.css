@@ -1,5 +1,6 @@
 .container
 {
+  visibility: visible;
   display: flex;
   justify-content: center;
   align-content: center;
@@ -53,5 +54,11 @@
 
 #end-game
 {
-  display: none;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  padding-top: 5%;
+  visibility: hidden;
+  margin-top: -500px;
 }
